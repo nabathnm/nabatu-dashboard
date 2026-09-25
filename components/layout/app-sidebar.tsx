@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, FolderKanban, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Settings, LogOut, Wrench, BriefcaseBusiness } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -25,9 +25,19 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Project",
-    url: "/project",
+    title: "Projects",
+    url: "/projects",
     icon: FolderKanban,
+  },
+  {
+    title: "Tools",
+    url: "/tools",
+    icon: Wrench,
+  },
+  {
+    title: "Experiences",
+    url: "/experiences",
+    icon: BriefcaseBusiness,
   },
 ];
 
