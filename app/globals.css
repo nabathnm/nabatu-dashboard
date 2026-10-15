@@ -92,7 +92,7 @@ body {
   --background: #2E3440;
   --foreground: #ffffff;
   --card: #394352;
-  --card-foreground: #8FBCBB;
+  --card-foreground: #85D2E7;
   --card-border: #465365;
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -124,6 +124,12 @@ body {
 }
 
 @layer base {
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background-color: inherit;
+    box-shadow: none;
+  }
   * {
     @apply border-border outline-ring/50;
   }

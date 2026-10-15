@@ -1,8 +1,8 @@
 "use client";
 
-import { format, isSameMonth, isSameDay } from "date-fns";
 import { cn } from "@/lib/utils";
 import type { Task } from "@/types/task";
+import { format, isSameDay, isSameMonth } from "date-fns";
 import TaskPopover from "../TaskPopOver";
 
 interface CalendarDayCellProps {
@@ -10,7 +10,6 @@ interface CalendarDayCellProps {
     monthStart: Date;
     dayTasks: Task[];
     onDateClick: (date: Date) => void;
-    /** newDate berformat "yyyy-MM-dd" */
     onTaskDateChange: (taskId: string, newDate: string) => void;
     onTaskCompleteChange: (taskId: string, isCompleted: boolean) => void;
     onTaskDescriptionChange?: (taskId: string, newDescription: string) => void;

@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
 import { addMonths, format, subMonths } from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import CalendarGrid from "@/components/tasks/calendar/CalendarGrid";
+import TaskListView from "@/components/tasks/list/TaskListView";
+import { TaskToolbar, type TaskView } from "@/components/tasks/task-toolbar";
+import TaskModal from "@/components/tasks/TaskModal";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,12 +17,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import CalendarGrid from "@/components/tasks/calendar/CalendarGrid";
-import TaskListView from "@/components/tasks/list/TaskListView";
-import TaskModal from "@/components/tasks/TaskModal";
-import TaskToolbar, { type TaskView } from "@/components/tasks/TaskToolbar";
 
-import { useTasks, getErrorMessage } from "@/hooks/use-task";
+import { getErrorMessage, useTasks } from "@/hooks/use-task";
 import type { Task, TaskFilters } from "@/types/task";
 
 /* =========================================================

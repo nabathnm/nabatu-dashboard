@@ -1,16 +1,15 @@
 "use client";
 
+import { GenericCalendarGrid } from "@/components/common/generic-calendar-grid";
+import type { Task } from "@/types/task";
 import { format, isValid, parseISO, startOfMonth } from "date-fns";
 import { useMemo } from "react";
-import type { Task } from "@/types/task";
 import CalendarDayCell from "./CalendarDayCell";
-import { GenericCalendarGrid } from "@/components/common/generic-calendar-grid";
 
 interface CalendarGridProps {
     currentMonth: Date;
     tasks: Task[];
     onDateClick: (date: Date) => void;
-    /** newDate berformat "yyyy-MM-dd" */
     onTaskDateChange: (taskId: string, newDate: string) => void;
     onTaskCompleteChange: (taskId: string, isCompleted: boolean) => void;
     onTaskDescriptionChange?: (taskId: string, newDescription: string) => void;

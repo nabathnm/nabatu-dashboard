@@ -1,7 +1,7 @@
 "use client";
 
-import { useTaskStats } from "@/hooks/use-task";
 import TaskStats from "@/components/tasks/TaskStats";
+import { useTaskStats } from "@/hooks/use-task";
 
 /**
  * Ringkasan tugas di luar komponen view.
