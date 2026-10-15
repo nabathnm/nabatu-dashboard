@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { Loader2 } from "lucide-react";
-
-function hasToken(): boolean {
-  if (typeof window === "undefined") return false;
-  return !!localStorage.getItem("token");
-}
 
 export default function AuthGuard({
   children,
@@ -16,17 +11,41 @@ export default function AuthGuard({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  // Inisialisasi lazy dari localStorage → hindari setState dalam effect
-  const [authenticated] = useState<boolean>(hasToken);
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
-  // Redirect terjadi di luar pemanggilan setState sinkron
   useEffect(() => {
-    if (!authenticated) {
-      router.replace("/login");
-    }
-  }, [authenticated, router]);
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-  if (!authenticated) {
+      if (session) {
+        setAuthenticated(true);
+      } else {
+        router.replace("/login");
+      }
+      setLoading(false);
+    };
+
+    checkSession();
+
+    // Listen for auth state changes (e.g. token refresh, sign out)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        setAuthenticated(false);
+        router.replace("/login");
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
+
+  if (loading || !authenticated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="size-8 animate-spin text-muted-foreground" />

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, FolderKanban, Settings, LogOut, Wrench, BriefcaseBusiness } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
   Sidebar,
   SidebarContent,
@@ -18,12 +19,20 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-const navItems = [
+const mainItem = [
   {
     title: "Dashboard",
     url: "/dashboard",
     icon: LayoutDashboard,
   },
+  {
+    title: "Task",
+    url: "/tasks",
+    icon: LayoutDashboard,
+  },
+];
+
+const navItems = [
   {
     title: "Projects",
     url: "/projects",
@@ -45,21 +54,44 @@ export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     router.push("/login");
   };
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b px-4 py-3">
-        <span className="text-lg font-bold tracking-tight">N</span>
+      <SidebarHeader className="border-b px-4 py-3 flex">
+        <span className="text-lg font-bold tracking-tight">Alumni Papua</span>
         <SidebarTrigger />
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainItem.map((item) => {
+                const isActive = pathname === item.url;
+                const Icon = item.icon;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      render={<Link href={item.url} />}
+                      isActive={isActive}
+                      tooltip={item.title}
+                    >
+                      <Icon className="size-4" />
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>About Me</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => {
